@@ -8,7 +8,7 @@ import javax.persistence.*;
 public class Message {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
 	private String message;
