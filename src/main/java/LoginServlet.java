@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.List;
+import javax.persistence.NoResultException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import model.User;
+import model.dao.UserDAO;
+import model.utils.DAOFactoryUtils;
 
 @WebServlet("/login")
 public class LoginServlet extends HttpServlet {
@@ -16,12 +18,9 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String name = req.getParameter("name");
 		String password = req.getParameter("password");
-		List<User> users = (List<User>) getServletContext().getAttribute("users");
+		UserDAO userDAO = DAOFactoryUtils.getUserDAO();
 		try {
-			User user = users.stream()
-					.filter(u -> u.getName().equals(name))
-					.findFirst()
-					.orElseThrow(UserNotFoundException::new);
+			User user = userDAO.getByName(name);
 			if (user.getPassword().equals(password)){
 				HttpSession session = req.getSession();
 				session.setAttribute("username", user.getName());
@@ -29,7 +28,7 @@ public class LoginServlet extends HttpServlet {
 			} else {
 				resp.sendRedirect("error.jsp");
 			}
-		} catch (UserNotFoundException e) {
+		} catch (NoResultException e) {
 			resp.sendRedirect("error.jsp");
 		}
 	}

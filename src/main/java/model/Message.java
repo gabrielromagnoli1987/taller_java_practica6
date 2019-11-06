@@ -1,21 +1,40 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
+import javax.persistence.*;
 
+@Entity
 public class Message {
 
+	@Id
+	@GeneratedValue
+	private Long id;
+
 	private String message;
-	private String owner;
+
+	@ManyToOne
+	@JoinColumn(name = "owner_id")
+	private User owner;
+
 	private LocalDateTime localDateTime;
 
 	public Message() {
 
 	}
 
-	public Message(String message, String owner, LocalDateTime localDateTime) {
+	public Message(String message, User owner, LocalDateTime localDateTime) {
 		this.message = message;
 		this.owner = owner;
 		this.localDateTime = localDateTime;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getMessage() {
@@ -26,11 +45,11 @@ public class Message {
 		this.message = message;
 	}
 
-	public String getOwner() {
+	public User getOwner() {
 		return owner;
 	}
 
-	public void setOwner(String owner) {
+	public void setOwner(User owner) {
 		this.owner = owner;
 	}
 
@@ -46,7 +65,7 @@ public class Message {
 	public String toString() {
 		return "Message{" +
 				"message='" + message + '\'' +
-				", owner=" + owner +
+				", owner=" + owner.getName() +
 				", localDateTime=" + localDateTime +
 				'}';
 	}
@@ -58,15 +77,13 @@ public class Message {
 
 		Message message1 = (Message) o;
 
-		if (message != null ? !message.equals(message1.message) : message1.message != null) return false;
-		if (owner != null ? !owner.equals(message1.owner) : message1.owner != null) return false;
-		return localDateTime != null ? localDateTime.equals(message1.localDateTime) : message1.localDateTime == null;
+		if (!Objects.equals(message, message1.message)) return false;
+		return Objects.equals(localDateTime, message1.localDateTime);
 	}
 
 	@Override
 	public int hashCode() {
 		int result = message != null ? message.hashCode() : 0;
-		result = 31 * result + (owner != null ? owner.hashCode() : 0);
 		result = 31 * result + (localDateTime != null ? localDateTime.hashCode() : 0);
 		return result;
 	}
