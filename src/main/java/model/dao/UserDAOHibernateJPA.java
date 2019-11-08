@@ -15,8 +15,8 @@ public class UserDAOHibernateJPA extends GenericDAOHibernateJPA<User> implements
 	@Override
 	public User getByName(String name) {
 		EntityManager entityManager = EntityManagerFactoryUtils.getEntityManagerFactory().createEntityManager();
-		Query query = entityManager.createQuery("select u from User u where u.name = ?");
-		query.setParameter(0, name);
+		Query query = entityManager.createQuery("select u from User u where u.name = ?1");
+		query.setParameter(1, name);
 		User user = (User) query.getSingleResult();
 		entityManager.close();
 		return user;

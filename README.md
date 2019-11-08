@@ -2,3 +2,5 @@
 
 Project: Blog Messages
 Technologies: Maven / JSP / Servlets / Session / JPA
+
+http://localhost:8080/BlogMessages_war/showMessages.jsp

@@ -11,10 +11,11 @@ public class Message {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 
+	@Column(nullable = false)
 	private String message;
 
 	@ManyToOne
-	@JoinColumn(name = "owner_id")
+	@JoinColumn(name = "owner_id", nullable = false)
 	private User owner;
 
 	private LocalDateTime localDateTime;

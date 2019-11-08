@@ -15,7 +15,7 @@
         <% } %>
     </div>
     <h2>Add message form</h2>
-    <form action="/addMessage" method="post">
+    <form action="${pageContext.request.contextPath}/addMessage" method="post">
         <label for="message">Message</label><br>
         <input type="text" id="message" name="message" required><br>
         <input type="submit" value="Add Message">
